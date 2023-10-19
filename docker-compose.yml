@@ -1,0 +1,24 @@
+version: '3'
+services:
+  postgres-db:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mucp
+    volumes:
+      - ./postgres:/mucp  # Mount the host directory 'postgres' into the container's mucp directory
+      - ./postgres/db_load.sh:/docker-entrypoint-initdb.d/db_load.sh
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $$POSTGRES_DB -U postgres"]
+      interval: 5s
+      timeout: 10s
+      retries: 120
+
+  nodejs-app:
+    build:
+      context: .  # Build the Docker image from the current directory
+    ports:
+      - "3001:3001"  # Map port 3001 in the container to port 3001 on your host
+    depends_on:
+      postgres-db:  # Make the Node.js service depend on the PostgreSQL service
+        condition: service_healthy
