@@ -1,16 +1,27 @@
 # CSC494
 
+## Overview
+
+The project currently does 3 things, as illustrated under `.github/workflows`:
+1. `data_db.yml`: This workflow queries data about uoft bike stations and saves them into a Postgres database on the cloud - currently on ElephantSQL. 
+2. `data_nodb.yml`: This workflow queries about the same data and instead saves them as individual CSV files which are pushed onto the repo - currently into project root. 
+3. `clean_csv.yml`: This workflow collects the above individual CSV files on a daily basis, combines them into a single CSV named as `combined_${date_in_EST}` and removes the individual files afterwards, then pushes the combined CSV file onto the repo - currently into project root.
+
+`data_db.yml` and `data_nodb`.yml are run with a 5 minute segment, between minutes 10-59, on hours 08:00 to 10:00 and 17:00 to 19:00. `clean_csv.yml `is run on 22:17. All times here are in EST - github actions currently only accepts UTC for their cron, so the workflow files are in UTC.  
+
+## Development
+
 Simple docker app with a NodeJS container and a PostgreSQL container. Use VSCode with dev containers and docker plugin. Recommend Rainbow CSV for highlighting csv files. 
 
-To start development, run `docker compose build nodejs-app` then `docker compose up --force-recreate -d` (detached so you don't lose your current terminal). 
+To start development, run `docker compose build nodejs-app` then `docker compose up --force-recreate -d`. 
 
-## NodeJS
+### NodeJS
 
 1. Attach to the Node container
 2. Open the `/app` folder
 3. The image has `npm` and `node` installed, so you can just run for instance `node index.js`
 
-## PostgreSQL
+### PostgreSQL
 
 1. Attach to the PostgreSQL container
 2. Open the `/mucp` folder (TBD: Better starter location?)
@@ -22,7 +33,7 @@ To start development, run `docker compose build nodejs-app` then `docker compose
 
 **Note**: `git` is currently not loaded in this container, but shouldn't be a problem as all the setup are ready. 
 
-## Connect NodeJS to Postgresql
+### Connecting NodeJS to Postgresql
 
 Because the containers already live under the same network (as it is by default), connecting the two just requires the correct configuration. In our case, it'll be
 ```js

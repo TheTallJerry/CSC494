@@ -14,7 +14,7 @@ const client = new Client({
   password: "password",
   port: "5432",
 });
-
+var lastUpdated = "";
 async function fetchDataAndInsert() {
   try {
     // Connect to the PostgreSQL database
@@ -26,7 +26,8 @@ async function fetchDataAndInsert() {
     console.log("Fetched data from endpoint")
     if (res.ok) {
       const data = await res.json();
-
+      lastUpdated = data.last_updated;
+      
       // Filter out uoft stations
       const uoftStationsData = data.data.stations.filter((station) =>
         uoftBikeStations.has(Number(station.station_id))
@@ -38,7 +39,7 @@ async function fetchDataAndInsert() {
           "insert into station_emptiness (station_id, time_checked, num_bikes_avail, num_docks_avail, num_bikes_disabled, num_docks_disabled, station_status) values ($1, to_timestamp($2), $3, $4, $5, $6, $7)",
           [
             Number(station.station_id),
-            Date.now() / 1000.0, 
+            lastUpdated / 1000.0, 
             station.num_bikes_available,
             station.num_bikes_disabled, 
             station.num_docks_available,

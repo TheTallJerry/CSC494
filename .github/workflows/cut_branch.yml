@@ -1,0 +1,19 @@
+name: Cut daily branch
+
+on:
+  workflow_dispatch:
+  schedule: # if scheduled on the hour, job might be skipped due to runner high workload
+    - cron: '23 9 * * 1-5' # Run on 4:23 Eastern Time on weekdays (Monday to Friday)
+
+jobs:
+  squash_and_merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create new branch
+        run: |
+          git checkout -b daily-branch-$(TZ='America/Toronto' date +'%Y-%m-%d')
+          git push -u origin daily-branch-$(TZ='America/Toronto' date +'%Y-%m-%d')

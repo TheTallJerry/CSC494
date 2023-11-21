@@ -3,28 +3,48 @@ name: Combine CSV Files
 on:
   workflow_dispatch:
   schedule:
-    - cron: "17 5 * * 2-6" # Runs at 1:17 am ET (5:17 am UTC) from Tuesday (2) to Saturday (6)
+    - cron: "17 3 * * 2-6" # Runs at 10:17 PM ET (3:17 am UTC) on weekdays
 
 jobs:
   combine_csv:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Set branch name
+        id: branch_name
+        run: echo ::set-output name=branch_name::daily-branch-$(TZ='America/Toronto' date +'%Y-%m-%d')
+      
+      - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.branch_name.outputs.branch_name }}
 
       - name: Set Up Git
         run: git config --global user.email "actions@github.com" && git config --global user.name "GitHub Actions"
 
       - name: Merge data CSV Files into one and remove the rest
         run: |
-            cat [^c]*.csv > combined.csv
-            find . -maxdepth 1 -type f -name "*.csv" -not -name "combined*.csv" -exec rm -f {} \;
+            cat *.csv > combined.csv
+            find . -maxdepth 1 -type f -name "*.csv" -not -name "combined.csv" -exec rm -f {} \;
     
-      - name: Rename Combined CSV
-        run: mv combined.csv "combined_$(date +'%Y-%m-%d').csv"
+      - name: Rename Combined CSV and move to collected_data/
+        run: |
+            mv combined.csv "collected_data/combined_$(TZ='America/Toronto' date +'%Y-%m-%d').csv"
 
       - name: Commit and Push Changes
         run: |
           git add .
           git commit -m "Merge CSV Files into one and remove the rest"
           git push
+
+      - name: Squash and merge
+        run: |
+          git fetch origin main
+          git checkout main
+          git merge --allow-unrelated-histories --squash daily-branch-$(TZ='America/Toronto' date +'%Y-%m-%d')
+          git commit -m "Squashed daily commits for $(TZ='America/Toronto' date +'%Y-%m-%d')"
+          git push origin main
+
+      - name: Delete branch
+        run: |
+          git push --delete origin daily-branch-$(TZ='America/Toronto' date +'%Y-%m-%d')
+          git branch -D daily-branch-$(TZ='America/Toronto' date +'%Y-%m-%d')
