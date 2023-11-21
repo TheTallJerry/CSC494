@@ -28,7 +28,7 @@ jobs:
     
       - name: Rename Combined CSV and move to collected_data/
         run: |
-            mv combined.csv "collected_data/combined_$(TZ='America/Toronto' date +'%Y-%m-%d').csv"
+            mv combined.csv "collected_data/combined_${{ steps.branch_name.outputs.branch_name }}.csv"
 
       - name: Commit and Push Changes
         run: |
@@ -40,11 +40,11 @@ jobs:
         run: |
           git fetch origin main
           git checkout main
-          git merge --allow-unrelated-histories --squash daily-branch-$(TZ='America/Toronto' date +'%Y-%m-%d')
-          git commit -m "Squashed daily commits for $(TZ='America/Toronto' date +'%Y-%m-%d')"
+          git merge --allow-unrelated-histories --squash ${{ steps.branch_name.outputs.branch_name }}
+          git commit -m "Squashed daily commits for ${{ steps.branch_name.outputs.branch_name }}"
           git push origin main
 
       - name: Delete branch
         run: |
-          git push --delete origin daily-branch-$(TZ='America/Toronto' date +'%Y-%m-%d')
-          git branch -D daily-branch-$(TZ='America/Toronto' date +'%Y-%m-%d')
+          git push --delete origin ${{ steps.branch_name.outputs.branch_name }}
+          git branch -D ${{ steps.branch_name.outputs.branch_name }}
