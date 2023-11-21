@@ -6,7 +6,7 @@ on:
     - cron: '23 9 * * 1-5' # Run on 4:23 Eastern Time on weekdays (Monday to Friday)
 
 jobs:
-  squash_and_merge:
+  cut_daily_branch:
     runs-on: ubuntu-latest
 
     steps:
