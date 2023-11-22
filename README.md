@@ -2,7 +2,7 @@
 
 ## Overview
 
-The project currently does 4 things, as illustrated under `.github/workflows`:
+The project currently has 4 workflows, as illustrated under `.github/workflows`:
 1. `data_db.yml`: This workflow queries data about uoft bike stations and saves them into a Postgres database on the cloud - currently on ElephantSQL. 
 2. `cut_branch.yml`: This workflow cuts a daily branch where the data collection will occur. 
 3. `data_nodb.yml`: This workflow queries about the same data as `data_db.yml` and instead saves them as individual CSV files which are pushed onto the daily branch. 
@@ -14,7 +14,7 @@ The project currently does 4 things, as illustrated under `.github/workflows`:
 
 Simple docker app with a NodeJS container and a PostgreSQL container. Use VSCode with dev containers and docker plugin. Recommend Rainbow CSV for highlighting csv files. 
 
-To start development, run `docker compose build nodejs-app` then `docker compose up --force-recreate -d`. 
+To start development, run `docker compose build nodejs-app` then `docker compose up -d`. 
 
 ### NodeJS
 
@@ -48,4 +48,4 @@ const client = new Client({
 ```
 with `Client` being imported from `pg`. 
 
-If you'd like to connect to the elephantSQL database instead, the configs are in project secrets, and you can also ask Jerry. 
+If you'd like to connect to the ElephantSQL database instead, the configs are in project secrets, and you can also ask Jerry. 

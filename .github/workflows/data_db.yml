@@ -28,5 +28,5 @@ jobs:
         run: npm install
 
       - name: Run Node.js script
-        run: node query_cloud.js
+        run: node query_db.js cloud
 
