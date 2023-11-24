@@ -35,7 +35,7 @@ async function fetchDataAndPush() {
       for (const station of uoftStationsData) {
         csvArray.push([
           Number(station.station_id),
-          lastUpdated / 1000.0,
+          lastUpdated,
           station.num_bikes_available,
           station.num_bikes_disabled,
           station.num_docks_available,

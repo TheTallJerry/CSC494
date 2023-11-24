@@ -8,7 +8,7 @@ The project currently has 4 workflows, as illustrated under `.github/workflows`:
 3. `data_nodb.yml`: This workflow queries about the same data as `data_db.yml` and instead saves them as individual CSV files which are pushed onto the daily branch. 
 4. `clean_csv.yml`: This workflow collects the above individual CSV files on a daily basis, combines them into a single CSV named as `combined_daily_branch_${date_in_EST}` and removes the individual files afterwards, then pushes the combined CSV file onto the daily branch, then merges the daily branch into main and deletes the daily branch afterwards. The combined CSV is saved under `/collected_data`.
 
-`cut_branch.yml` is run on 04:23. `data_db.yml` and `data_nodb.yml` are run with a 5 minute segment, between minutes 10-59, on hours 08:00 to 10:00 and 17:00 to 19:00. `clean_csv.yml` is run on 22:17. All times here are in EST - github actions currently only accepts UTC for their cron, so the workflow files are in UTC.  
+`cut_branch.yml` is run on 04:23. `data_db.yml` and `data_nodb.yml` are run with a 5 minute segment, between minutes 10-59, on hours 08:00 to 10:00 and 16:00 to 18:00. `clean_csv.yml` is run on 22:17. All times here are in EST - github actions currently only accepts UTC for their cron, so the times in the actual workflow files are in UTC.  
 
 ## Development
 

@@ -58,7 +58,7 @@ async function fetchDataAndInsert() {
           "insert into station_emptiness (station_id, time_checked, num_bikes_avail, num_docks_avail, num_bikes_disabled, num_docks_disabled, station_status) values ($1, to_timestamp($2), $3, $4, $5, $6, $7)",
           [
             Number(station.station_id),
-            lastUpdated / 1000.0,
+            lastUpdated,
             station.num_bikes_available,
             station.num_bikes_disabled,
             station.num_docks_available,
