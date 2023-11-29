@@ -6,7 +6,8 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: mucp
     volumes:
-      - ./postgres:/mucp  # Mount the host directory 'postgres' into the container's mucp directory
+      - ./postgres:/mucp
+      - ./collected_data:/mucp/collected_data
       - ./postgres/db_load.sh:/docker-entrypoint-initdb.d/db_load.sh
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d $$POSTGRES_DB -U postgres"]
