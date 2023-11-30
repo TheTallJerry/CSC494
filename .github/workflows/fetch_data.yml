@@ -1,4 +1,4 @@
-name: Fetch data and save to database
+name: Fetch data and save data to database, and as csv to github
 
 on:
   workflow_dispatch:
@@ -16,8 +16,17 @@ jobs:
       CLOUD_PSQL_PASSWORD: ${{ secrets.CLOUD_PSQL_PASSWORD }}
       
     steps:
+      - name: Set branch name
+        id: branch_name
+        run: echo ::set-output name=branch_name::daily-branch-$(TZ='America/Toronto' date +'%Y-%m-%d')
+      
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.branch_name.outputs.branch_name }}
+
+      - name: Set Up Git
+        run: git config --global user.email "actions@github.com" && git config --global user.name "GitHub Actions"
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -28,5 +37,11 @@ jobs:
         run: npm install
 
       - name: Run Node.js script
-        run: node query_db.js cloud
+        run: node query.js cloud
+      
+      - name: Commit and Push Changes
+        run: |
+          git add .
+          git commit -m "cron generated data"
+          git push
 
