@@ -61,6 +61,18 @@ async function copyData() {
           }
         }
       );
+      filteredStationsTxt = "Station ID, Station Name\n"
+      filteredStations.forEach(station => filteredStationsTxt += `${station.station_id}, ${station.name}\n`);
+      fs.writeFile(
+        "postgres/uoft_unavail_stations.csv",
+        filteredStationsTxt,
+        (err) => {
+          if (err) {
+            console.error(err);
+            return;
+          }
+        }
+      );
       console.log(`Wrote ${filteredStations.length} to file`)
     });
   } catch (error) {
