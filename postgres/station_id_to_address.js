@@ -17,7 +17,8 @@ async function copyData() {
     // Fetch data from the docker database
     const querySQLFile = fs.readFileSync("./postgres/query.sql", "utf-8");
     await dockerDbClient.query(querySQLFile);
-    const fetchQuery = "SELECT station_id FROM final_median_availability"; // Fetch all data from final_median_availability table
+    const fetchQuery =
+      "select * from final_median_availability order by average_median_availability asc"; // Fetch all data from final_median_availability table
     const { rows } = await dockerDbClient.query(fetchQuery);
 
     fs.readFile("utils/station_information.json", "utf8", (err, data) => {
@@ -27,26 +28,32 @@ async function copyData() {
       }
 
       jsonData = JSON.parse(data);
-      console.log(rows);
-      rows.forEach((row, i) => {
-        rows[i] = rows[i].station_id;
-      });
-      uoftBikeStationsLocations = [];
-      uoftBikeStationsRelevant = jsonData.data.stations.filter((station) =>
-        rows.includes(Number(station.station_id))
-      );
-      uoftBikeStationsRelevant.forEach((station) => {
-        uoftBikeStationsLocations.push({
-          [station.station_id]: {
-            lat: station.lat,
-            lon: station.lon,
-            name: station.name,
-          },
+    //   console.log(rows);
+      filtered_stations = [];
+
+      let filteredStations = rows
+        .filter((row) =>
+          jsonData.data.stations.some(
+            (station) => station.station_id == row.station_id
+          )
+        )
+        .map((row) => {
+          let matchingStation = jsonData.data.stations.find(
+            (station) => station.station_id == row.station_id
+          );
+          return {
+            station_id: row.station_id,
+            average_median_availability: parseFloat(
+              row.average_median_availability
+            ),
+            lat: matchingStation.lat,
+            lon: matchingStation.lon,
+            name: matchingStation.name,
+          };
         });
-      });
       fs.writeFile(
         "postgres/uoft_unavail_stations.json",
-        JSON.stringify(uoftBikeStationsLocations),
+        JSON.stringify(filteredStations),
         (err) => {
           if (err) {
             console.error(err);
@@ -54,6 +61,7 @@ async function copyData() {
           }
         }
       );
+      console.log(`Wrote ${filteredStations.length} to file`)
     });
   } catch (error) {
     console.error("Error:", error);
