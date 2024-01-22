@@ -1,71 +1,56 @@
--- distribution of num_bikes_avail
--- select 
---     station_id, 
---     num_bikes_avail,
---     count(num_bikes_avail)
--- from station_emptiness
--- where 
---     extract(hour from time_checked at time zone 'UTC' at time zone 'EST') >= 8 and 
---     extract(hour from time_checked at time zone 'UTC' at time zone 'EST') < 11 and 
---     extract(day from time_checked at time zone 'UTC' at time zone 'EST') > 19 and 
---     extract(day from time_checked at time zone 'UTC' at time zone 'EST') < 25
--- group by station_id, num_bikes_avail
--- order by station_id, num_bikes_avail; 
+-- cleanup
+delete from station_emptiness where (num_docks_avail + num_docks_disabled + num_bikes_avail + num_bikes_disabled) = 0;
 
--- avg docks avail during morning
--- select 
---     station_id, 
---     round(avg(num_docks_avail), 3) as average_docks_avail
--- from station_emptiness
--- where 
---     extract(hour from time_checked at time zone 'UTC' at time zone 'EST') >= 8 and 
---     extract(hour from time_checked at time zone 'UTC' at time zone 'EST') < 11 and 
---     extract(day from time_checked at time zone 'UTC' at time zone 'EST') > 19 and 
---     extract(day from time_checked at time zone 'UTC' at time zone 'EST') < 25
--- group by station_id
--- order by average_docks_avail desc; 
+-- Create a temporary table for median docks availability during morning
+drop table if exists temp_median_docks_avail_morning;
+create temporary table temp_median_docks_avail_morning as
+select
+  station_id,
+  round(percentile_disc(0.5) within group (order by (num_docks_avail::numeric / (num_docks_avail + num_docks_disabled + num_bikes_avail + num_bikes_disabled))), 4) as median_docks_avail
+from
+  station_emptiness
+where
+  extract(hour from time_checked at time zone 'UTC' at time zone 'EST') >= 8
+  and extract(hour from time_checked at time zone 'UTC' at time zone 'EST') < 11
+group by
+  station_id;
 
--- median bikes avail during evening
-drop table if exists median_bikes_avail;
-create table median_bikes_avail as
-select 
-    station_id, 
-    percentile_disc(0.5) within group(order by num_bikes_avail) as median_bikes_avail, 
-    num_bikes_avail + num_bikes_disabled + num_docks_avail + num_docks_disabled as total_spots
-from station_emptiness
-where 
-    extract(hour from time_checked at time zone 'UTC' at time zone 'EST') >= 16 and 
-    extract(hour from time_checked at time zone 'UTC' at time zone 'EST') < 19 and 
-    extract(day from time_checked at time zone 'UTC' at time zone 'EST') > 19 and 
-    extract(day from time_checked at time zone 'UTC' at time zone 'EST') < 25
-group by station_id, total_spots
-order by median_bikes_avail desc; 
+-- Create a temporary table for median bikes availability during evening
+drop table if exists temp_median_bikes_avail_evening;
+create temporary table temp_median_bikes_avail_evening as
+select
+  station_id,
+  round(percentile_disc(0.5) within group (order by (num_bikes_avail::numeric / (num_docks_avail + num_docks_disabled + num_bikes_avail + num_bikes_disabled))), 4) as median_bikes_avail
+from
+  station_emptiness
+where
+  extract(hour from time_checked at time zone 'UTC' at time zone 'EST') >= 16
+  and extract(hour from time_checked at time zone 'UTC' at time zone 'EST') < 19
+group by
+  station_id;
 
-select station_id, round(median_bikes_avail / total_spots::numeric, 2) as median
-from median_bikes_avail;
+-- Create a table for station_id, (median_docks_avail + median_bikes_avail) / 2
+drop table if exists final_median_availability;
+create table final_median_availability as
+select
+  d.station_id,
+  round((d.median_docks_avail + b.median_bikes_avail) / 2, 4) as average_median_availability
+from
+  temp_median_docks_avail_morning d
+join
+  temp_median_bikes_avail_evening b on d.station_id = b.station_id;
 
--- avg station emptiness during morning
--- select 
---     station_id, 
---     round(avg(num_docks_avail / (num_bikes_avail + num_bikes_disabled + num_docks_avail + num_docks_disabled)), 6) as average_emptiness
--- from station_emptiness
--- where 
---     extract(hour from time_checked at time zone 'UTC' at time zone 'EST') >= 8 and 
---     extract(hour from time_checked at time zone 'UTC' at time zone 'EST') < 11 and 
---     extract(day from time_checked at time zone 'UTC' at time zone 'EST') > 19 and 
---     extract(day from time_checked at time zone 'UTC' at time zone 'EST') < 25
--- group by station_id
--- order by average_emptiness desc; 
+-- lowest overall
+select * from final_median_availability
+order by average_median_availability asc
+limit 8;
 
--- avg station accessibility during evening
--- select 
---     station_id, 
---     round(avg(num_bikes_avail / (num_bikes_avail + num_bikes_disabled + num_docks_avail + num_docks_disabled)), 6) as average_accessibility
--- from station_emptiness
--- where 
---     extract(hour from time_checked at time zone 'UTC' at time zone 'EST') >= 16 and 
---     extract(hour from time_checked at time zone 'UTC' at time zone 'EST') < 19 and 
---     extract(day from time_checked at time zone 'UTC' at time zone 'EST') > 19 and 
---     extract(day from time_checked at time zone 'UTC' at time zone 'EST') < 25
--- group by station_id
--- order by average_accessibility desc; 
+-- lowest docks avail morning
+select * from temp_median_docks_avail_morning
+order by median_docks_avail asc
+limit 8;
+
+-- lowest bikes avail evening
+select * from temp_median_bikes_avail_evening
+order by median_bikes_avail asc
+limit 8;

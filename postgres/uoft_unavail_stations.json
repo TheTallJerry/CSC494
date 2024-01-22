@@ -1,0 +1,159 @@
+[
+  {
+    "7002": {
+      "lat": 43.667333,
+      "lon": -79.399429,
+      "name": "St. George St / Bloor St W"
+    }
+  },
+  {
+    "7008": {
+      "lat": 43.663376,
+      "lon": -79.392125,
+      "name": "Wellesley St W / Queen's Park Cres"
+    }
+  },
+  {
+    "7023": {
+      "lat": 43.6571,
+      "lon": -79.4056,
+      "name": "College St / Borden St"
+    }
+  },
+  {
+    "7058": {
+      "lat": 43.6637,
+      "lon": -79.400053,
+      "name": "Huron St / Harbord St"
+    }
+  },
+  {
+    "7063": {
+      "lat": 43.668456,
+      "lon": -79.393899,
+      "name": "Queen's Park / Bloor St W"
+    }
+  },
+  {
+    "7066": {
+      "lat": 43.662085,
+      "lon": -79.397735,
+      "name": "Willcocks St / St. George St"
+    }
+  },
+  {
+    "7078": { "lat": 43.6576, "lon": -79.4032, "name": "College St / Major St" }
+  },
+  {
+    "7155": {
+      "lat": 43.663808,
+      "lon": -79.410491,
+      "name": "Bathurst St / Lennox St"
+    }
+  },
+  {
+    "7170": {
+      "lat": 43.6616667,
+      "lon": -79.40138888888889,
+      "name": "Spadina Ave / Willcocks St"
+    }
+  },
+  {
+    "7190": {
+      "lat": 43.6637403,
+      "lon": -79.39806449999999,
+      "name": "St. George St / Hoskin Ave"
+    }
+  },
+  {
+    "7191": {
+      "lat": 43.661975,
+      "lon": -79.407896,
+      "name": "Central Tech  (Harbord St)"
+    }
+  },
+  {
+    "7195": {
+      "lat": 43.66,
+      "lon": -79.4088888888889,
+      "name": "Ulster St / Bathurst St"
+    }
+  },
+  {
+    "7250": {
+      "lat": 43.660296,
+      "lon": -79.397107,
+      "name": "Ursula Franklin St / St. George St - SMART"
+    }
+  },
+  {
+    "7252": {
+      "lat": 43.665846,
+      "lon": -79.404998,
+      "name": "Robert St / Bloor St W - SMART"
+    }
+  },
+  {
+    "7273": {
+      "lat": 43.668153,
+      "lon": -79.38891,
+      "name": "Bay St / Charles St W - SMART"
+    }
+  },
+  {
+    "7274": {
+      "lat": 43.661803,
+      "lon": -79.389682,
+      "name": "Queen's Park Cres E / Grosvenor St - SMART"
+    }
+  },
+  {
+    "7285": {
+      "lat": 43.6629228,
+      "lon": -79.4018451,
+      "name": "Spadina Ave / Harbord St - SMART"
+    }
+  },
+  {
+    "7335": {
+      "lat": 43.669244,
+      "lon": -79.3894,
+      "name": "Bay St / Bloor St W (West Side)"
+    }
+  },
+  {
+    "7358": {
+      "lat": 43.6603874468082,
+      "lon": -79.39537831814152,
+      "name": "Galbraith Rd / King's College Rd"
+    }
+  },
+  {
+    "7457": {
+      "lat": 43.665221,
+      "lon": -79.394009,
+      "name": "Queen's Park Cres W / Hoskin Ave"
+    }
+  },
+  {
+    "7600": {
+      "lat": 43.660274,
+      "lon": -79.398049,
+      "name": "Ursula Franklin St / Huron St - SMART"
+    }
+  },
+  {
+    "7667": {
+      "lat": 43.66402799999999,
+      "lon": -79.40297869999999,
+      "name": "Spadina Ave / Sussex Ave - SMART"
+    }
+  },
+  {
+    "7762": {
+      "lat": 43.6591529,
+      "lon": -79.3947953,
+      "name": "College St / Henry St "
+    }
+  }
+]

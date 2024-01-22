@@ -1,5 +1,4 @@
 const { Client } = require("pg");
-const { Client } = require("pg");
 require("dotenv").config();
 
 const cloudDbClient = new Client({
