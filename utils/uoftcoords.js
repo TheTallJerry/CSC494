@@ -1,6 +1,7 @@
 const polygon = require("polygon");
 const fs = require("fs");
 const Vec2 = require("vec2");
+const GeoJSON = require("geojson");
 
 // Graphed with Google Earth
 const uoftLatiLong = [
@@ -25,6 +26,16 @@ fs.readFile("station_information.json", "utf8", (err, data) => {
   jsonData = JSON.parse(data);
   uoftBikeStations = jsonData.data.stations
     .filter((station) => p.containsPoint(Vec2(station.lat, station.lon)))
-    .map((station) => station.station_id);
+    .map((station) => ({
+      name: station.name,
+      lon: station.lon,
+      lat: station.lat,
+    }));
   console.log(uoftBikeStations);
+
+  fs.writeFile(
+    "./stations/out.geojson",
+    JSON.stringify(GeoJSON.parse(uoftBikeStations, { Point: ["lat", "lon"] })),
+    (err) => {}
+  );
 });
