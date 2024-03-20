@@ -1,24 +1,24 @@
-Station ID, Station Name
-7273, Bay St / Charles St W - SMART
-7155, Bathurst St / Lennox St
-7335, Bay St / Bloor St W (West Side)
-7195, Ulster St / Bathurst St
-7002, St. George St / Bloor St W
-7008, Wellesley St W / Queen's Park Cres
-7252, Robert St / Bloor St W - SMART
-7078, College St / Major St
-7190, St. George St / Hoskin Ave
-7457, Queen's Park Cres W / Hoskin Ave
-7066, Willcocks St / St. George St
-7600, Ursula Franklin St / Huron St - SMART
-7250, Ursula Franklin St / St. George St - SMART
-7063, Queen's Park / Bloor St W
-7170, Spadina Ave / Willcocks St
-7023, College St / Borden St
-7191, Central Tech  (Harbord St)
-7274, Queen's Park Cres E / Grosvenor St - SMART
-7285, Spadina Ave / Harbord St - SMART
-7667, Spadina Ave / Sussex Ave - SMART
-7358, Galbraith Rd / King's College Rd
-7058, Huron St / Harbord St
-7762, College St / Henry St 
+Station Name, Average Accessibility
+Bay St / Charles St W - SMART, 0.025
+Bathurst St / Lennox St, 0.0263
+Bay St / Bloor St W (West Side), 0.0263
+Ulster St / Bathurst St, 0.0455
+St. George St / Bloor St W, 0.079
+Wellesley St W / Queen's Park Cres, 0.079
+Robert St / Bloor St W - SMART, 0.0834
+College St / Major St, 0.1
+Willcocks St / St. George St, 0.1177
+Ursula Franklin St / Huron St - SMART, 0.125
+Ursula Franklin St / St. George St - SMART, 0.125
+Queen's Park Cres W / Hoskin Ave, 0.1305
+Queen's Park / Bloor St W, 0.1305
+St. George St / Hoskin Ave, 0.1334
+Spadina Ave / Willcocks St, 0.1334
+Central Tech  (Harbord St), 0.1364
+College St / Borden St, 0.1364
+Spadina Ave / Harbord St - SMART, 0.1806
+Queen's Park Cres E / Grosvenor St - SMART, 0.1875
+Spadina Ave / Sussex Ave - SMART, 0.197
+Galbraith Rd / King's College Rd, 0.2059
+Huron St / Harbord St, 0.2106
+College St / Henry St , 0.2308

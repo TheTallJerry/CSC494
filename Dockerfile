@@ -13,6 +13,7 @@ RUN npm ci
 # Copy the rest of the application code to the working directory
 COPY . .
 
+RUN node postgres/fetch_cloud.js
 # Expose a port for the Node.js application
 EXPOSE 3001
 

@@ -61,8 +61,8 @@ async function copyData() {
           }
         }
       );
-      filteredStationsTxt = "Station ID, Station Name\n"
-      filteredStations.forEach(station => filteredStationsTxt += `${station.station_id}, ${station.name}\n`);
+      filteredStationsTxt = "Station Name, Average Accessibility\n"
+      filteredStations.forEach(station => filteredStationsTxt += `${station.name}, ${station.average_median_availability}\n`);
       fs.writeFile(
         "postgres/uoft_unavail_stations.csv",
         filteredStationsTxt,
