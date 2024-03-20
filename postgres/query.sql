@@ -46,11 +46,11 @@ order by average_median_availability asc
 limit 8;
 
 -- lowest docks avail morning
-select * from temp_median_docks_avail_morning
-order by median_docks_avail asc
-limit 8;
+-- select * from temp_median_docks_avail_morning
+-- order by median_docks_avail asc
+-- limit 8;
 
--- lowest bikes avail evening
-select * from temp_median_bikes_avail_evening
-order by median_bikes_avail asc
-limit 8;
+-- -- lowest bikes avail evening
+-- select * from temp_median_bikes_avail_evening
+-- order by median_bikes_avail asc
+-- limit 8;
