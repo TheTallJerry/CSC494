@@ -42,8 +42,7 @@ join
 
 -- lowest overall
 select * from final_median_availability
-order by average_median_availability asc
-limit 8;
+order by average_median_availability asc;
 
 -- lowest docks avail morning
 -- select * from temp_median_docks_avail_morning
